@@ -1,25 +1,26 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Home, Store, Heart, ShoppingBag, User } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export const MobileBottomNav: React.FC = () => {
-  const { totalItems, wishlist, setIsCartOpen, setIsWishlistOpen, showToast } = useCart();
+  const { totalItems, wishlist, setIsCartOpen, setIsWishlistOpen } = useCart();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/80 md:hidden px-4 py-2 shadow-lg">
       <div className="flex items-center justify-around text-gray-600 text-[10px] font-bold">
-        <a
-          href="#"
+        <Link
+          href="/"
           className="flex flex-col items-center gap-1 text-emerald-600 hover:text-emerald-700"
         >
           <Home className="w-5 h-5 stroke-[2.2]" />
           <span>Home</span>
-        </a>
+        </Link>
 
         <a
-          href="#products"
+          href="/#products"
           className="flex flex-col items-center gap-1 hover:text-emerald-600"
         >
           <Store className="w-5 h-5 stroke-[2]" />
@@ -52,13 +53,13 @@ export const MobileBottomNav: React.FC = () => {
           )}
         </button>
 
-        <button
-          onClick={() => showToast("Account drawer opened")}
+        <Link
+          href="/login"
           className="flex flex-col items-center gap-1 hover:text-emerald-600"
         >
           <User className="w-5 h-5 stroke-[2]" />
           <span>Account</span>
-        </button>
+        </Link>
       </div>
     </div>
   );

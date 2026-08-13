@@ -13,6 +13,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export const Navbar: React.FC = () => {
   const {
@@ -40,11 +41,10 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-        isScrolled
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-gray-100"
           : "bg-white py-4 border-b border-gray-100"
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -93,6 +93,9 @@ export const Navbar: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               Deals
             </a>
+            <Link className="hover:text-emerald-600 transition-colors" href={'/dashboard/role'}>
+              Dashboard
+            </Link>
             <a
               href="#why-us"
               className="hover:text-emerald-600 transition-colors"
@@ -146,21 +149,21 @@ export const Navbar: React.FC = () => {
             </button>
 
             {/* Account / User Icon */}
-            <button
-              onClick={() => showToast("Account settings opened")}
+            <Link
+              href="/login"
               aria-label="User Account"
               className="hidden lg:flex p-2.5 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
             >
               <User className="w-5 h-5 stroke-[2]" />
-            </button>
+            </Link>
 
             {/* Login button */}
-            <button
-              onClick={() => showToast("Welcome back! Login modal coming up.")}
+            <Link
+              href="/login"
               className="hidden lg:inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
             >
               Login
-            </button>
+            </Link>
 
             {/* Mobile Hamburger toggle */}
             <button
@@ -220,15 +223,13 @@ export const Navbar: React.FC = () => {
             </a>
 
             <div className="pt-2 border-t border-gray-100 flex items-center gap-3 px-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  showToast("Login modal opened");
-                }}
-                className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center"
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center block"
               >
                 Sign In / Register
-              </button>
+              </Link>
             </div>
           </div>
         )}
