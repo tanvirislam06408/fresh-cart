@@ -30,6 +30,7 @@ import {
   X,
   AlertCircle
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 function RegisterFormContent() {
   const { showToast } = useCart();
@@ -51,7 +52,7 @@ function RegisterFormContent() {
   const passwordsMatch = confirmPassword.length > 0 ? password === confirmPassword : true;
 
   // Handle standard Email & Password Registration submit
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!fullName || !email || !password || !confirmPassword) {
@@ -72,14 +73,19 @@ function RegisterFormContent() {
     setIsSubmitting(true);
 
     const payload = {
-      method: "Email & Password Registration",
-      fullName,
+      acceptTerms,
+      name: fullName,
       email,
       password: "•".repeat(password.length) + " (" + password + ")",
-      acceptTerms,
-      welcomeCouponApplied: "FRESH15 ($15 Off)",
-      timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
+
     };
+
+    const { data, error } = await authClient.signUp.email({
+      ...payload
+    });
+
+    console.log("after register ",data,error);
+    
 
     // Console log the registration data as requested
     console.log("%c[FreshCart Auth] 📝 REGISTRATION DATA SUBMITTED:", "color: #10b981; font-weight: bold; font-size: 14px;", payload);
@@ -348,11 +354,10 @@ function RegisterFormContent() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="••••••••••••"
-                      className={`block w-full pl-11 pr-10 py-3 bg-gray-50 border rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all ${
-                        !passwordsMatch
-                          ? "border-rose-400 focus:ring-rose-500/20 focus:border-rose-600"
-                          : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white"
-                      }`}
+                      className={`block w-full pl-11 pr-10 py-3 bg-gray-50 border rounded-xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all ${!passwordsMatch
+                        ? "border-rose-400 focus:ring-rose-500/20 focus:border-rose-600"
+                        : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white"
+                        }`}
                     />
                     <button
                       type="button"
