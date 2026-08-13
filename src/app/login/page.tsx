@@ -28,6 +28,8 @@ import {
   Terminal,
   X
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 function LoginFormContent() {
   const { showToast } = useCart();
@@ -43,9 +45,10 @@ function LoginFormContent() {
   } | null>(null);
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
+  const router = useRouter();
 
   // Handle standard Email & Password Login submit
-  const handleEmailLogin = (e: React.FormEvent) => {
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
       showToast("Please fill in both email and password.");
@@ -55,12 +58,26 @@ function LoginFormContent() {
     setIsSubmitting(true);
 
     const payload = {
-      method: "Email & Password",
+
       email,
       password: "•".repeat(password.length) + " (" + password + ")",
       rememberMe,
-      timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
     };
+
+
+    const { data, error } = await authClient.signIn.email({
+      ...payload
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    router.replace('/')
+
+    router.refresh();
+    console.log("after login", data, error);
+
 
     // Console log the login data as requested
     console.log("%c[FreshCart Auth] 🔑 LOGIN DATA SUBMITTED:", "color: #10b981; font-weight: bold; font-size: 14px;", payload);
@@ -367,29 +384,7 @@ function LoginFormContent() {
             </form>
           </div>
 
-          {/* On-Screen Console Output Display Card */}
-          {logOutput && (
-            <div className="mt-6 p-4 rounded-2xl bg-slate-950 text-slate-100 border border-slate-800 shadow-xl text-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                <div className="flex items-center gap-2 text-emerald-400 font-mono font-bold">
-                  <Terminal className="w-4 h-4" />
-                  <span>Browser Console Output ({logOutput.timestamp})</span>
-                </div>
-                <button
-                  onClick={() => setLogOutput(null)}
-                  className="text-slate-400 hover:text-slate-200"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <p className="text-slate-400 mb-2 font-sans">
-                Data was logged via <code className="text-emerald-300 font-mono bg-slate-900 px-1 py-0.5 rounded">console.log()</code>. Open Developer Tools (F12) to inspect object details.
-              </p>
-              <pre className="font-mono text-[11px] bg-slate-900/90 p-3 rounded-xl overflow-x-auto text-emerald-200 leading-relaxed border border-slate-800">
-                {JSON.stringify(logOutput.data, null, 2)}
-              </pre>
-            </div>
-          )}
+          
 
           {/* Bottom Switch Link */}
           <div className="mt-8 text-center border-t border-gray-100 pt-6">
