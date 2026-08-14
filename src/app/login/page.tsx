@@ -87,24 +87,23 @@ function LoginFormContent() {
   }
 
   // Handle Facebook Login click
-  const handleFacebookLogin = () => {
-    const payload = {
-      provider: "Facebook OAuth 2.0",
-      action: "Sign In",
-      status: "UI Triggered - Awaiting OAuth Backend",
-      timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
-    };
+  const handleFacebookLogin = async () => {
+    // const payload = {
+    //   provider: "Facebook OAuth 2.0",
+    //   action: "Sign In",
+    //   status: "UI Triggered - Awaiting OAuth Backend",
+    //   timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
+    // };
 
+    const data = await authClient.signIn.social({
+      provider: "facebook",
+
+    })
     // Console log the Facebook login data
-    console.log("%c[FreshCart Auth] 🔵 FACEBOOK LOGIN CLICKED:", "color: #1877f2; font-weight: bold; font-size: 14px;", payload);
+    console.log("%c[FreshCart Auth] 🔵 FACEBOOK LOGIN CLICKED:", "color: #1877f2; font-weight: bold; font-size: 14px;", data);
 
-    setLogOutput({
-      type: "facebook",
-      data: payload,
-      timestamp: new Date().toLocaleTimeString()
-    });
 
-    showToast("Facebook login clicked! Check browser console for logged data.");
+    showToast("Facebook login clicked! ");
   };
 
   // Handle Forgot Password submit
