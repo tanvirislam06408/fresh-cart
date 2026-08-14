@@ -299,13 +299,13 @@ function LoginFormContent() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
                     Password
                   </label>
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => setShowForgotModal(true)}
                     className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
                   >
                     Forgot password?
-                  </button>
+                  </button> */}
                 </div>
                 <div className="relative rounded-xl shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
