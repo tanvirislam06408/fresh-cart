@@ -15,6 +15,7 @@ import {
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export const Navbar: React.FC = () => {
   const {
@@ -42,6 +43,19 @@ export const Navbar: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // redirect to login page
+        },
+      },
+    });
+    setMobileMenuOpen(false);
+  }
 
   return (
     <header
@@ -166,7 +180,7 @@ export const Navbar: React.FC = () => {
             {/* Login button */}
             {
               user ? <button
-
+                onClick={()=>handleSignOut()}
                 className="hidden lg:inline-flex items-center justify-center  text-gray-500 border border-gray-500 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
               >
                 SingOut
@@ -241,12 +255,13 @@ export const Navbar: React.FC = () => {
             <div className="pt-2 border-t border-gray-100 flex items-center gap-3 px-3">
               {
                 user ? <button
-                  onClick={() => setMobileMenuOpen(false)}
+
+                  onClick={() => handleSignOut()}
                   className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center block"
                 >
                   Sign out
-                </button> 
-                :
+                </button>
+                  :
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
