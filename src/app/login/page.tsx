@@ -88,12 +88,7 @@ function LoginFormContent() {
 
   // Handle Facebook Login click
   const handleFacebookLogin = async () => {
-    // const payload = {
-    //   provider: "Facebook OAuth 2.0",
-    //   action: "Sign In",
-    //   status: "UI Triggered - Awaiting OAuth Backend",
-    //   timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
-    // };
+    
 
     const data = await authClient.signIn.social({
       provider: "facebook",
@@ -103,7 +98,7 @@ function LoginFormContent() {
     console.log("%c[FreshCart Auth] 🔵 FACEBOOK LOGIN CLICKED:", "color: #1877f2; font-weight: bold; font-size: 14px;", data);
 
 
-    showToast("Facebook login clicked! ");
+    showToast("Facebook login successful ! ");
   };
 
   // Handle Forgot Password submit

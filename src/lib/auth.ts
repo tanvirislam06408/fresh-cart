@@ -40,7 +40,7 @@ export const auth = betterAuth({
 
       acceptTerms: {
         type: "boolean",
-        required: true,
+        required: false,
       },
     },
   },
