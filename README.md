@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 FreshCart — 100% Organic Grocery & E-Commerce Platform
 
-## Getting Started
+FreshCart is a modern, high-performance e-commerce web application designed for online grocery ordering and express delivery. Built with Next.js 16, React 19, Tailwind CSS v4, Prisma ORM, and Better-Auth, FreshCart delivers a rich shopping experience complete with product categories, interactive cart/wishlist drawers, authentication flows, a user profile management route, and a production-grade analytics dashboard.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Key Features
+
+### 🛍️ E-Commerce & Shopping Experience
+- **Interactive Home Page**: Features animated hero banners, category grids, daily deals, popular organic items, customer reviews, delivery steps, app download promotions, and newsletter subscriptions.
+- **Cart & Wishlist Drawers**: Slide-out cart drawer with live subtotal calculation, free shipping progress indicator ($35 threshold), and quick item quantity controls.
+- **Quick View & Search Modals**: Instant search overlay and product preview modal for detailed item view without navigating away.
+- **Toast Notifications**: Built-in notification toasts for user actions (adding items to cart/wishlist, copying user ID, sign out).
+
+### 📊 Production-Grade User Dashboard (`/dashboard`)
+- **Responsive Layout**: Collapsible left sidebar on desktop and a mobile drawer menu.
+- **Top Header**: Search bar, notification popover with badge, user profile menu dropdown.
+- **Overview Stat Cards**: Metrics for Total Orders (24), Pending Orders (3), Completed Orders (18), and Cart Items (5) with trend indicators.
+- **Interactive SVG Analytics Charts**:
+  - **Orders Overview**: Monthly order volume bar chart.
+  - **Monthly Spending**: Gradient-filled smooth curve area chart.
+  - **Order Status Breakdown**: Interactive Donut chart with status legend (Delivered, Processing, Shipped, Cancelled).
+- **Recent Orders Table**: Detailed order table with search filter, status badges, and action buttons.
+- **Cart & Profile Overview**: Integrated cart preview, profile summary card, and real-time activity timeline.
+
+### 👤 Profile & Authentication (`/profile`, `/login`, `/register`)
+- **Better-Auth Integration**: Secure authentication with email/password and social login (Facebook).
+- **User Profile Page (`/profile`)**: Displays authenticated user details including Full Name, Email, Role, Email Verification Status, Terms Acceptance, User ID (with copy-to-clipboard functionality), and account creation/update timestamps.
+- **Registration Flow**: Split visual layout featuring feature checklists, password match validation, and terms agreement.
+
+---
+
+## 🛠️ Technology Stack
+
+### **Core Framework & Runtime**
+- **[Next.js 16 (App Router & Turbopack)](https://nextjs.org/)**: React framework for server-side rendering, API routes, and fast builds.
+- **[React 19](https://react.dev/)**: Component-based UI library.
+- **[TypeScript](https://www.typescriptlang.org/)**: Type-safe code throughout the application.
+
+### **Database & Authentication**
+- **[Prisma ORM (v7)](https://www.prisma.io/)**: Next-generation database toolkit and query builder.
+- **[PostgreSQL](https://www.postgresql.org/)**: Relational database provider connected via `@prisma/adapter-pg`.
+- **[Better-Auth](https://www.better-auth.com/)**: Modern authentication framework with Prisma adapter support for sessions, credentials, and social OAuth providers.
+
+### **Styling & Icons**
+- **[Tailwind CSS (v4)](https://tailwindcss.com/)**: Utility-first CSS framework with custom color tokens, glassmorphism, and responsive utilities.
+- **[Lucide React](https://lucide.dev/)**: Icon set for UI elements.
+- **[Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans)**: Google typography integration.
+
+---
+
+## 📂 Project Structure
+
+```text
+fresh-cart/
+├── src/
+│   ├── app/
+│   │   ├── api/             # Better-Auth endpoints
+│   │   ├── dashboard/       # User & Admin Dashboard route (/dashboard & /dashboard/[role])
+│   │   ├── login/           # User Sign In route
+│   │   ├── profile/         # User Profile route (/profile)
+│   │   ├── register/        # Account Creation route
+│   │   ├── globals.css      # Global Tailwind v4 styles & keyframe animations
+│   │   ├── layout.tsx       # Root layout with fonts & metadata
+│   │   └── page.tsx         # E-commerce Landing page
+│   ├── components/
+│   │   ├── dashboard/       # Dashboard components (Sidebar, TopHeader, StatCard, Charts, RecentOrders, etc.)
+│   │   ├── Navbar.tsx       # Main navigation header
+│   │   ├── Footer.tsx       # Application footer
+│   │   ├── CartDrawer.tsx   # Slide-out cart drawer
+│   │   ├── SearchModal.tsx  # Search modal overlay
+│   │   ├── WishlistModal.tsx# Saved items drawer
+│   │   └── QuickViewModal.tsx # Product detail modal
+│   ├── context/
+│   │   └── CartContext.tsx  # Global state provider for cart, wishlist, & modals
+│   ├── data/
+│   │   └── products.ts      # Product catalog data
+│   └── lib/
+│       ├── auth.ts          # Server authentication config (Better-Auth + Prisma)
+│       ├── auth-client.ts   # Client auth hooks (useSession, signIn, signOut)
+│       └── core/
+│           └── session.ts   # Server session retrieval helper
+├── prisma/                  # Database schema & migrations
+├── public/                  # Static assets & images
+├── package.json             # Dependencies & script configurations
+└── README.md                # Project documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Prerequisites
+Ensure you have the following installed on your machine:
+- **Node.js** (v18.x or later)
+- **npm** or **yarn** / **pnpm**
+- **PostgreSQL** database instance
 
-## Learn More
+### 2. Installation
+Clone the repository and install the dependencies:
+```bash
+git clone https://github.com/your-username/fresh-cart.git
+cd fresh-cart
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Environment Variables
+Create a `.env` file in the project root directory and configure your database and authentication credentials:
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/freshcart_db"
+BETTER_AUTH_SECRET="your-super-secret-key"
+BETTER_AUTH_URL="http://localhost:3000"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Social Authentication Providers (Optional)
+FACEBOOK_CLIENT_ID="your-facebook-client-id"
+FACEBOOK_CLIENT_SECRET="your-facebook-client-secret"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Database Setup & Migration
+Generate the Prisma Client and sync your database schema:
+```bash
+npx prisma db push
+# Or for Prisma migrations:
+npx prisma migrate dev
+```
 
-## Deploy on Vercel
+### 5. Run Development Server
+Start the development server with Next.js Turbopack:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧪 NPM Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Starts the Next.js development server |
+| `npm run build` | Compiles and builds the production application bundle |
+| `npm run start` | Starts the production server |
+| `npm run lint` | Runs ESLint checks across the codebase |
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).

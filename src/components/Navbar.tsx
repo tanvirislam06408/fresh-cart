@@ -67,8 +67,8 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Left: FreshCart Logo */}
-          <a
-            href="#"
+          <Link
+            href="/"
             className="flex items-center gap-2.5 group focus:outline-none"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
@@ -82,46 +82,46 @@ export const Navbar: React.FC = () => {
                 Organic Supermarket
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Center Navigation links */}
           <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-gray-700">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-emerald-600 font-semibold flex items-center gap-1 hover:text-emerald-700 transition-colors"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="#categories"
               className="hover:text-emerald-600 transition-colors"
             >
               Categories
-            </a>
-            <a
+            </Link>
+            <Link
               href="#products"
               className="hover:text-emerald-600 transition-colors"
             >
               Shop
-            </a>
-            <a
+            </Link>
+            <Link
               href="#deals"
               className="flex items-center gap-1.5 text-amber-600 hover:text-amber-700 font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-xs border border-amber-200/60 transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               Deals
-            </a>
+            </Link>
             {
-              user && <Link className="hover:text-emerald-600 transition-colors" href={`/dashboard/${user?.role}`}>
+              user && <Link className="hover:text-emerald-600 transition-colors" href={`/dashboard/${(user as { role?: string })?.role || "user"}`}>
                 Dashboard
               </Link>
             }
-            <a
+            <Link
               href="#why-us"
               className="hover:text-emerald-600 transition-colors"
             >
               About
-            </a>
+            </Link>
           </nav>
 
           {/* Right side controls */}
@@ -170,7 +170,7 @@ export const Navbar: React.FC = () => {
 
             {/* Account / User Icon */}
             <Link
-              href="/login"
+              href={user ? "/profile" : "/login"}
               aria-label="User Account"
               className="hidden lg:flex p-2.5 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
             >
@@ -231,7 +231,7 @@ export const Navbar: React.FC = () => {
             >
               Shop All Products
             </a>
-            <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${user?.role}`}>
+            <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${(user as { role?: string })?.role || "user"}`}>
               Dashboard
             </Link>
             <a

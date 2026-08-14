@@ -104,25 +104,21 @@ function RegisterFormContent() {
   };
 
   // Handle Facebook Sign Up click
-  const handleFacebookRegister = () => {
-    const payload = {
-      provider: "Facebook OAuth 2.0",
-      action: "Sign Up / Register",
-      status: "UI Triggered - Awaiting OAuth Backend",
-      timestamp: new Date().toLocaleTimeString() + ", " + new Date().toLocaleDateString()
-    };
-
-    // Console log the Facebook register data
-    console.log("%c[FreshCart Auth] 🔵 FACEBOOK REGISTER CLICKED:", "color: #1877f2; font-weight: bold; font-size: 14px;", payload);
-
-    setLogOutput({
-      type: "facebook",
-      data: payload,
-      timestamp: new Date().toLocaleTimeString()
-    });
-
-    showToast("Facebook registration clicked! Check browser console for logged data.");
-  };
+ const handleFacebookRegister = async () => {
+ 
+ 
+     const data = await authClient.signIn.social({
+       provider: "facebook",
+ 
+     })
+     // Console log the Facebook login data
+     if (data.data) {
+       showToast("Facebook login successful ! ");
+     }
+     if (data.error) {
+       showToast(`${data?.error.message}`);
+     }
+   };
 
   return (
     <main className="flex-grow py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">

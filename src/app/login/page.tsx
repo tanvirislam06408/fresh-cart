@@ -88,17 +88,19 @@ function LoginFormContent() {
 
   // Handle Facebook Login click
   const handleFacebookLogin = async () => {
-    
+
 
     const data = await authClient.signIn.social({
       provider: "facebook",
 
     })
     // Console log the Facebook login data
-    console.log("%c[FreshCart Auth] 🔵 FACEBOOK LOGIN CLICKED:", "color: #1877f2; font-weight: bold; font-size: 14px;", data);
-
-
-    showToast("Facebook login successful ! ");
+    if (data.data) {
+      showToast("Facebook login successful ! ");
+    }
+    if (data.error) {
+      showToast(`${data?.error.message}`);
+    }
   };
 
   // Handle Forgot Password submit

@@ -19,13 +19,13 @@ export const MobileBottomNav: React.FC = () => {
           <span>Home</span>
         </Link>
 
-        <a
+        <Link
           href="/#products"
           className="flex flex-col items-center gap-1 hover:text-emerald-600"
         >
           <Store className="w-5 h-5 stroke-[2]" />
           <span>Shop</span>
-        </a>
+        </Link>
 
         <button
           onClick={() => setIsWishlistOpen(true)}
@@ -54,7 +54,7 @@ export const MobileBottomNav: React.FC = () => {
         </button>
 
         <Link
-          href="/login"
+          href="/profile"
           className="flex flex-col items-center gap-1 hover:text-emerald-600"
         >
           <User className="w-5 h-5 stroke-[2]" />
