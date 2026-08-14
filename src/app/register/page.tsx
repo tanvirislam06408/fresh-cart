@@ -112,9 +112,7 @@ function RegisterFormContent() {
  
      })
      // Console log the Facebook login data
-     if (data.data) {
-       showToast("Facebook login successful ! ");
-     }
+    
      if (data.error) {
        showToast(`${data?.error.message}`);
      }
