@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 export const Navbar: React.FC = () => {
   const {
@@ -26,6 +27,9 @@ export const Navbar: React.FC = () => {
   } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,8 +46,8 @@ export const Navbar: React.FC = () => {
   return (
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-gray-100"
-          : "bg-white py-4 border-b border-gray-100"
+        ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-gray-100"
+        : "bg-white py-4 border-b border-gray-100"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,9 +97,11 @@ export const Navbar: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               Deals
             </a>
-            <Link className="hover:text-emerald-600 transition-colors" href={'/dashboard/role'}>
-              Dashboard
-            </Link>
+            {
+              user && <Link className="hover:text-emerald-600 transition-colors" href={`/dashboard/${user?.role}`}>
+                Dashboard
+              </Link>
+            }
             <a
               href="#why-us"
               className="hover:text-emerald-600 transition-colors"
@@ -158,12 +164,19 @@ export const Navbar: React.FC = () => {
             </Link>
 
             {/* Login button */}
-            <Link
-              href="/login"
-              className="hidden lg:inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
-            >
-              Login
-            </Link>
+            {
+              user ? <button
+
+                className="hidden lg:inline-flex items-center justify-center  text-gray-500 border border-gray-500 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
+              >
+                SingOut
+              </button> : <Link
+                href="/login"
+                className="hidden lg:inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
+              >
+                Login
+              </Link>
+            }
 
             {/* Mobile Hamburger toggle */}
             <button
@@ -204,6 +217,9 @@ export const Navbar: React.FC = () => {
             >
               Shop All Products
             </a>
+            <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${user?.role}`}>
+              Dashboard
+            </Link>
             <a
               href="#deals"
               onClick={() => setMobileMenuOpen(false)}
@@ -223,13 +239,22 @@ export const Navbar: React.FC = () => {
             </a>
 
             <div className="pt-2 border-t border-gray-100 flex items-center gap-3 px-3">
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center block"
-              >
-                Sign In / Register
-              </Link>
+              {
+                user ? <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center block"
+                >
+                  Sign out
+                </button> 
+                :
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow text-center block"
+                  >
+                    Sign In
+                  </Link>
+              }
             </div>
           </div>
         )}

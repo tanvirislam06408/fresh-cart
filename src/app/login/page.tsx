@@ -73,27 +73,18 @@ function LoginFormContent() {
       return;
     }
 
-    router.replace('/')
-
-    router.refresh();
-    console.log("after login", data, error);
 
 
-    // Console log the login data as requested
-    console.log("%c[FreshCart Auth] 🔑 LOGIN DATA SUBMITTED:", "color: #10b981; font-weight: bold; font-size: 14px;", payload);
-    console.log("Raw credentials:", { email, password, rememberMe });
-
-    setLogOutput({
-      type: "login",
-      data: payload,
-      timestamp: new Date().toLocaleTimeString()
-    });
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      showToast(`Welcome back! Login data logged to console.`);
-    }, 400);
-  };
+    if (data) {
+      setTimeout(() => {
+        setIsSubmitting(false);
+        showToast(`Welcome back! Login successful.`);
+        router.replace('/')
+        router.refresh();
+        console.log("after login", data, error);
+      }, 400);
+    };
+  }
 
   // Handle Facebook Login click
   const handleFacebookLogin = () => {
@@ -384,7 +375,7 @@ function LoginFormContent() {
             </form>
           </div>
 
-          
+
 
           {/* Bottom Switch Link */}
           <div className="mt-8 text-center border-t border-gray-100 pt-6">
