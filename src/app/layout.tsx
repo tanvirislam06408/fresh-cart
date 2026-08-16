@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -20,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} scroll-smooth`}>
+    <html lang="en" className={cn("scroll-smooth", plusJakartaSans.variable, "font-sans", geist.variable)}>
       <body className="bg-[#FAF9F6] text-gray-900 min-h-screen antialiased selection:bg-emerald-200 selection:text-emerald-900">
         {children}
       </body>

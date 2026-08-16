@@ -16,6 +16,7 @@ import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { DropdownMenuAvatar } from "./shared/DropdownMenuAvatar";
 
 export const Navbar: React.FC = () => {
   const {
@@ -50,7 +51,8 @@ export const Navbar: React.FC = () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/login"); // redirect to login page
+          router.push("/login");
+          router.replace('/login') // redirect to login page
         },
       },
     });
@@ -168,23 +170,12 @@ export const Navbar: React.FC = () => {
               </span>
             </button>
 
-            {/* Account / User Icon */}
-            <Link
-              href={user ? "/profile" : "/login"}
-              aria-label="User Account"
-              className="hidden lg:flex p-2.5 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
-            >
-              <User className="w-5 h-5 stroke-[2]" />
-            </Link>
+           
 
-            {/* Login button */}
+            {/* Account / User Icon  */}
+           
             {
-              user ? <button
-                onClick={()=>handleSignOut()}
-                className="hidden lg:inline-flex items-center justify-center  text-gray-500 border border-gray-500 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
-              >
-                SingOut
-              </button> : <Link
+              user ? <DropdownMenuAvatar handleSignOut={handleSignOut} user={user}/> : <Link
                 href="/login"
                 className="hidden lg:inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
               >

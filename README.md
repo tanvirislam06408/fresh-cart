@@ -49,6 +49,22 @@ FreshCart is a modern, high-performance e-commerce web application designed for 
 
 ---
 
+## 🔮 Future Production Architecture & Roadmap
+
+For step-by-step guidance on scaling **FreshCart** into an enterprise production-grade platform with a decoupled **NestJS** backend, extended **Prisma ORM** PostgreSQL database schemas, Redis caching, real-time WebSockets, idempotency, and DevOps pipelines, see:
+
+👉 **[FUTURE_ROADMAP.md](file:///home/tanvir-hassan/projects/fresh-cart/FUTURE_ROADMAP.md)**
+
+### Key Upgrades Included in the Roadmap:
+1. **NestJS Modular Architecture**: Transition from monolithic Next.js API routes to a decoupled NestJS REST/GraphQL microservices backend.
+2. **Production Database & Concurrency**: Complete Prisma schema for inventory locks, stock reservations, order state machine, audit logs, and payments.
+3. **Enterprise Security**: JWT rotation, NestJS RBAC Guards (`CUSTOMER`, `ADMIN`, `VENDOR`), Redis Rate Limiting, and DTO sanitization.
+4. **Real-time Order & Delivery Tracking**: NestJS WebSocket Gateways for live order status updates and GPS driver tracking.
+5. **Search Engine & Redis Caching**: Meilisearch fuzzy auto-complete search + Redis/BullMQ async background worker queues.
+6. **DevOps & QA**: Docker Compose environment, automated Sentry logging, and GitHub Actions CI/CD workflows.
+
+---
+
 ## 📂 Project Structure
 
 ```text
@@ -83,7 +99,8 @@ fresh-cart/
 ├── prisma/                  # Database schema & migrations
 ├── public/                  # Static assets & images
 ├── package.json             # Dependencies & script configurations
-└── README.md                # Project documentation
+├── README.md                # Main project documentation
+└── FUTURE_ROADMAP.md        # Enterprise NestJS + Prisma + Postgres upgrade blueprint
 ```
 
 ---
