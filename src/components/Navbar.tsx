@@ -170,12 +170,12 @@ export const Navbar: React.FC = () => {
               </span>
             </button>
 
-           
+
 
             {/* Account / User Icon  */}
-           
+
             {
-              user ? <DropdownMenuAvatar handleSignOut={handleSignOut} user={user}/> : <Link
+              user ? <DropdownMenuAvatar handleSignOut={handleSignOut} user={user} /> : <Link
                 href="/login"
                 className="hidden lg:inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
               >
@@ -222,9 +222,11 @@ export const Navbar: React.FC = () => {
             >
               Shop All Products
             </a>
-            <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${(user as { role?: string })?.role || "user"}`}>
-              Dashboard
-            </Link>
+            {
+              user && <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${(user as { role?: string })?.role || "user"}`}>
+                Dashboard
+              </Link>
+            }
             <a
               href="#deals"
               onClick={() => setMobileMenuOpen(false)}

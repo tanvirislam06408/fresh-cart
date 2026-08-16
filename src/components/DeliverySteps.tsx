@@ -29,7 +29,7 @@ export const DeliverySteps: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-[#FAF9F6] border-t border-gray-100">
+    <section id="delivery" className="py-16 sm:py-24 bg-[#FAF9F6] border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200/60 inline-block mb-3">
