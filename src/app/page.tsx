@@ -24,6 +24,7 @@ import { WishlistModal } from "@/components/WishlistModal";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { ToastNotification } from "@/components/ToastNotification";
 import  { Toaster } from 'react-hot-toast';
+import HeroSlider from "@/components/heroSlider/Hero";
 
 export default function Home() {
   return (
@@ -38,7 +39,8 @@ export default function Home() {
         {/* Main Content Sections */}
         <main className="flex-grow">
           {/* 3. Hero Section */}
-          <HeroSection />
+        
+          <HeroSlider/>
 
           {/* 4. Category Section */}
           <CategorySection />

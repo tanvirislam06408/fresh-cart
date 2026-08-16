@@ -38,7 +38,7 @@ const ProfilePage = async () => {
 
   return (
     <CartProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAF9F6] selection:bg-emerald-200 selection:text-emerald-900 font-sans">
+      <div className="min-h-screen flex flex-col bg-[#FAF9F6] selection:bg-emerald-200 selection:text-emerald-900 font-sans ">
         {/* Top Announcement Bar */}
         <AnnouncementBar />
 
