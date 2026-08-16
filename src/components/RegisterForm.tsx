@@ -7,6 +7,7 @@ import { User, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-r
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import GoogleSignIn from "./shared/GoogleSignIn";
 
 
 export function RegisterForm() {
@@ -130,7 +131,7 @@ export function RegisterForm() {
                 </div>
 
                 {/* Facebook Social Sign Up Button */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                     <button
                         type="button"
                         onClick={handleFacebookRegister}
@@ -142,16 +143,9 @@ export function RegisterForm() {
                         <span>Sign up with Facebook</span>
                         <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform ml-auto hidden sm:inline" />
                     </button>
-                </div>
+                </div> */}
 
-                {/* Divider */}
-                <div className="relative flex items-center justify-center my-6">
-                    <div className="border-t border-gray-200 w-full" />
-                    <span className="bg-white px-4 text-xs font-bold uppercase tracking-wider text-gray-400 shrink-0">
-                        Or register with email
-                    </span>
-                    <div className="border-t border-gray-200 w-full" />
-                </div>
+               
 
                 {/* Standard Registration Form */}
                 <form onSubmit={handleRegister} className="space-y-4">
@@ -313,6 +307,17 @@ export function RegisterForm() {
                         )}
                     </button>
                 </form>
+
+                {/* Divider */}
+            <div className="relative flex items-center justify-center my-6">
+              <div className="border-t border-gray-200 w-full" />
+              <span className="bg-white px-4 text-xs font-bold uppercase tracking-wider text-gray-400 shrink-0">
+                Or sign in with Google
+              </span>
+              <div className="border-t border-gray-200 w-full" />
+            </div>
+
+            <GoogleSignIn />
             </div>
 
             {/* Bottom Switch Link */}

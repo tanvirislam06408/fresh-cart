@@ -31,6 +31,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import GoogleSignIn from "@/components/shared/GoogleSignIn";
 
 function LoginFormContent() {
   const { showToast } = useCart();
@@ -250,30 +251,7 @@ function LoginFormContent() {
               </div>
             </div>
 
-            {/* Facebook Social Login Button */}
-            <div className="mb-6">
-              <button
-                type="button"
-                onClick={handleFacebookLogin}
-                className="w-full flex items-center justify-center gap-3 bg-[#1877F2] hover:bg-[#166FE5] active:bg-[#1464D2] text-white font-semibold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all transform active:scale-[0.99] group text-sm sm:text-base"
-              >
-                {/* Official Facebook SVG Logo */}
-                <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                <span>Continue with Facebook</span>
-                <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform ml-auto hidden sm:inline" />
-              </button>
-            </div>
 
-            {/* Divider */}
-            <div className="relative flex items-center justify-center my-6">
-              <div className="border-t border-gray-200 w-full" />
-              <span className="bg-white px-4 text-xs font-bold uppercase tracking-wider text-gray-400 shrink-0">
-                Or sign in with email
-              </span>
-              <div className="border-t border-gray-200 w-full" />
-            </div>
 
             {/* Standard Email & Password Form */}
             <form onSubmit={handleEmailLogin} className="space-y-5">
@@ -372,6 +350,17 @@ function LoginFormContent() {
                 )}
               </button>
             </form>
+
+            {/* Divider */}
+            <div className="relative flex items-center justify-center my-6">
+              <div className="border-t border-gray-200 w-full" />
+              <span className="bg-white px-4 text-xs font-bold uppercase tracking-wider text-gray-400 shrink-0">
+                Or sign in with Google
+              </span>
+              <div className="border-t border-gray-200 w-full" />
+            </div>
+
+            <GoogleSignIn />
           </div>
 
 
