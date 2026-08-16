@@ -21,8 +21,8 @@ export const NewsletterSection: React.FC = () => {
 
   return (
     <section className="py-16 sm:py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-gradient-to-b from-emerald-50 via-emerald-100/40 to-teal-50 border border-emerald-200/60 p-8 sm:p-12 lg:p-16 text-center max-w-4xl mx-auto shadow-sm overflow-hidden">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative rounded-3xl bg-gradient-to-b from-emerald-50 via-emerald-100/40 to-teal-50 border border-emerald-200/60 p-8 sm:p-12 lg:p-16 text-center  mx-auto shadow-sm overflow-hidden">
           {/* Subtle bg glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-200/40 rounded-full blur-3xl pointer-events-none" />
 
