@@ -11,24 +11,20 @@ import {
   Mail,
   ShieldCheck,
   CheckCircle2,
-  XCircle,
   Copy,
   Check,
   Calendar,
   Clock,
   Sparkles,
   ShoppingBag,
-  Heart,
   LogOut,
   Leaf,
-  ArrowRight,
   Shield,
   Award,
   ChevronRight,
-  KeyRound,
-  FileCheck,
+  ShoppingBasket,
   AlertCircle,
-  ShoppingBasket
+  ArrowRight,
 } from "lucide-react";
 
 export interface UserData {
@@ -74,7 +70,7 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
         onError: () => {
           setIsSigningOut(false);
           showToast("Failed to sign out. Please try again.");
-        }
+        },
       },
     });
   };
@@ -91,7 +87,7 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
         day: "numeric",
         year: "numeric",
         hour: "2-digit",
-        minute: "2-digit"
+        minute: "2-digit",
       }).format(d);
     } catch {
       return String(dateInput);
@@ -100,7 +96,7 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
 
   // Get user initials fallback
   const getInitials = (name?: string) => {
-    if (!name) return "U";
+    if (!name) return "FC";
     const parts = name.trim().split(" ");
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
@@ -119,7 +115,7 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
             Session Expired or Not Logged In
           </h2>
           <p className="text-gray-500 text-sm mb-6">
-            Please sign in to view and manage your FreshCart profile and order details.
+            Please sign in to view and manage your FreshCart profile and account details.
           </p>
           <Link
             href="/login"
@@ -147,149 +143,149 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
         <span className="text-emerald-700 font-semibold">User Profile</span>
       </div>
 
-      {/* Main Profile Layout Grid */}
+      {/* Profile Main Container */}
       <div className="space-y-8">
-        {/* 1. Header Banner & Profile Overview Card */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative">
-          {/* Header Banner Background */}
-          <div className="h-44 sm:h-56 bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-400/20 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
-            
-            {/* Pattern Overlay */}
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+        {/* Profile Card (Clean design without cover photo) */}
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-emerald-100/80 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+            {/* Photo + User Info */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+              {/* Profile Photo Container */}
+              <div className="relative group shrink-0">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-emerald-50 p-1.5 shadow-xl ring-4 ring-emerald-500/20 relative overflow-hidden transition-transform duration-300 group-hover:scale-105">
+                  {user.image && !imageError ? (
+                    <Image
+                      src={user.image}
+                      alt={user.name || "Profile Photo"}
+                      fill
+                      priority
+                      className="object-cover rounded-2xl"
+                      onError={() => setImageError(true)}
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="w-full h-full rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-500 flex items-center justify-center text-white font-extrabold text-3xl sm:text-4xl shadow-inner">
+                      {getInitials(user.name)}
+                    </div>
+                  )}
+                </div>
+                {user.emailVerified && (
+                  <div
+                    className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-emerald-500 ring-4 ring-white flex items-center justify-center text-white shadow-md"
+                    title="Verified Account"
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                )}
+              </div>
 
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 z-10">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md border ${
-                isAdmin 
-                  ? "bg-amber-500/20 border-amber-300/40 text-amber-200" 
-                  : "bg-emerald-500/20 border-emerald-300/40 text-emerald-100"
-              }`}>
-                <Shield className="w-3.5 h-3.5" />
-                {roleName}
-              </span>
+              {/* User Name, Email, & Role Badge */}
+              <div className="flex flex-col justify-center pt-1">
+                <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                    {user.name}
+                  </h1>
+                  <span
+                    className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-xs font-extrabold uppercase tracking-wider border ${
+                      isAdmin
+                        ? "bg-amber-100 text-amber-900 border-amber-300"
+                        : "bg-emerald-100 text-emerald-900 border-emerald-300"
+                    }`}
+                  >
+                    <Shield className="w-3 h-3" />
+                    {roleName}
+                  </span>
+                </div>
+
+                <p className="text-gray-500 text-sm font-medium mt-1.5 flex items-center justify-center sm:justify-start gap-2">
+                  <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{user.email}</span>
+                </p>
+
+                {user.emailVerified && (
+                  <div className="mt-2.5 flex items-center justify-center sm:justify-start">
+                    <span className="text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 fill-emerald-600 text-white" />
+                      Verified Account
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-center md:justify-end gap-3 flex-wrap w-full md:w-auto">
+              {isAdmin && (
+                <Link
+                  href={`/dashboard/${user.role}`}
+                  className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-2xl shadow-md transition-all hover:shadow-lg hover:scale-[1.02]"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Admin Dashboard</span>
+                </Link>
+              )}
+
+              <button
+                onClick={handleSignOut}
+                disabled={isSigningOut}
+                className="inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-rose-50 text-gray-700 hover:text-rose-700 border border-gray-200 hover:border-rose-200 font-semibold text-sm px-5 py-2.5 rounded-2xl transition-all disabled:opacity-50 hover:scale-[1.02]"
+              >
+                <LogOut className="w-4 h-4 text-rose-500" />
+                <span>{isSigningOut ? "Signing out..." : "Sign Out"}</span>
+              </button>
             </div>
           </div>
 
-          {/* User Info Bar (Overlapping avatar) */}
-          <div className="px-6 sm:px-10 pb-8 relative pt-0">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 -mt-16 sm:-mt-20 mb-6">
-              {/* Avatar & Title */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-end gap-5 text-center sm:text-left">
-                {/* Avatar Box */}
-                <div className="relative group">
-                  <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl bg-white p-1.5 shadow-2xl ring-4 ring-white shrink-0 relative overflow-hidden">
-                    {user.image ? (
-                      <Image
-                        src={user.image}
-                        alt={user.name || "User Avatar"}
-                        fill
-                        className="object-cover rounded-2xl"
-                        onError={() => setImageError(true)}
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="w-full h-full rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-500 flex items-center justify-center text-white font-extrabold text-3xl sm:text-4xl shadow-inner">
-                        {getInitials(user.name)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-emerald-500 ring-4 ring-white flex items-center justify-center text-white shadow-md">
-                    <CheckCircle2 className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* Name & Basic Details */}
-                <div className="pt-2 sm:pt-0">
-                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                      {user.name}
-                    </h1>
-                    {user.emailVerified && (
-                      <span className="text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 fill-emerald-600 text-white" /> Verified
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-gray-500 text-sm font-medium mt-1 flex items-center justify-center sm:justify-start gap-1.5">
-                    <Mail className="w-4 h-4 text-emerald-600" />
-                    <span>{user.email}</span>
-                  </p>
-                </div>
+          {/* Quick Stats Highlights */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-8 border-t border-emerald-100/60">
+            <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/20">
+                <Award className="w-5 h-5" />
               </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center justify-center sm:justify-end gap-3 flex-wrap">
-                {isAdmin && (
-                  <Link
-                    href={`/dashboard/${user.role}`}
-                    className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm px-4 py-2.5 rounded-2xl shadow-md transition-all hover:shadow-lg"
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>Admin Dashboard</span>
-                  </Link>
-                )}
-
-                <button
-                  onClick={handleSignOut}
-                  disabled={isSigningOut}
-                  className="inline-flex items-center gap-2 bg-gray-100 hover:bg-rose-50 text-gray-700 hover:text-rose-700 border border-gray-200 hover:border-rose-200 font-semibold text-sm px-4 py-2.5 rounded-2xl transition-all disabled:opacity-50"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>{isSigningOut ? "Signing out..." : "Sign Out"}</span>
-                </button>
+              <div>
+                <div className="text-xs text-emerald-800 font-semibold uppercase tracking-wider">
+                  Member Tier
+                </div>
+                <div className="text-sm font-extrabold text-emerald-950">
+                  Fresh Club VIP
+                </div>
               </div>
             </div>
 
-            {/* Quick Stats Highlights */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-gray-100">
-              <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/20">
-                  <Award className="w-5 h-5" />
+            
+
+            <div className="bg-blue-50/60 border border-blue-100 rounded-2xl p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
+                <ShoppingBasket className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs text-blue-800 font-semibold uppercase tracking-wider">
+                  Orders
                 </div>
-                <div>
-                  <div className="text-xs text-emerald-800 font-semibold uppercase tracking-wider">Member Tier</div>
-                  <div className="text-sm font-extrabold text-emerald-950">Fresh Club VIP</div>
+                <div className="text-sm font-extrabold text-blue-950">
+                  Active Account
                 </div>
               </div>
+            </div>
 
-              <div className="bg-amber-50/60 border border-amber-100 rounded-2xl p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-500/20">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs text-amber-800 font-semibold uppercase tracking-wider">Rewards</div>
-                  <div className="text-sm font-extrabold text-amber-950">150 Green Points</div>
-                </div>
+            <div className="bg-purple-50/60 border border-purple-100 rounded-2xl p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/20">
+                <CheckCircle2 className="w-5 h-5" />
               </div>
-
-              <div className="bg-blue-50/60 border border-blue-100 rounded-2xl p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
-                  <ShoppingBasket className="w-5 h-5" />
+              <div>
+                <div className="text-xs text-purple-800 font-semibold uppercase tracking-wider">
+                  Status
                 </div>
-                <div>
-                  <div className="text-xs text-blue-800 font-semibold uppercase tracking-wider">Orders</div>
-                  <div className="text-sm font-extrabold text-blue-950">Active Account</div>
-                </div>
-              </div>
-
-              <div className="bg-purple-50/60 border border-purple-100 rounded-2xl p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/20">
-                  <CheckCircle2 className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs text-purple-800 font-semibold uppercase tracking-wider">Status</div>
-                  <div className="text-sm font-extrabold text-purple-950 flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Active
-                  </div>
+                <div className="text-sm font-extrabold text-purple-950 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />{" "}
+                  Active
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 2. Detailed Data Cards Section */}
+        {/* Detailed Data Cards Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Account Specifications */}
           <div className="lg:col-span-8 space-y-6">
@@ -368,128 +364,68 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
                     </span>
                   </div>
                 </div>
-
               </div>
             </div>
 
-            {/* Timestamps & Metadata Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
-                <h2 className="text-lg sm:text-xl font-extrabold text-gray-900 flex items-center gap-2.5">
-                  <Clock className="w-5 h-5 text-teal-600" />
-                  <span>Account Activity & Timestamps</span>
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Created At */}
-                <div className="bg-emerald-50/40 p-4 rounded-2xl border border-emerald-100/60 flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <Calendar className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-emerald-900 mb-0.5">
-                      Account Created On
-                    </label>
-                    <div className="text-sm font-bold text-gray-900">
-                      {formatDate(user.createdAt)}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Updated At */}
-                <div className="bg-teal-50/40 p-4 rounded-2xl border border-teal-100/60 flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-teal-900 mb-0.5">
-                      Last Updated
-                    </label>
-                    <div className="text-sm font-bold text-gray-900">
-                      {formatDate(user.updatedAt)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
 
-          {/* Right Column: Verification Status & Quick Links */}
+          {/* Right Column: Security & Quick Links */}
           <div className="lg:col-span-4 space-y-6">
-            {/* Status & Compliance Card */}
+            {/* Security Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
               <h2 className="text-lg font-extrabold text-gray-900 mb-6 flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                <span>Security & Compliance</span>
+                <span>Security & Verification</span>
               </h2>
 
               <div className="space-y-4">
                 {/* Email Verification Item */}
                 <div className="flex items-center justify-between p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-white ${
-                      user.emailVerified ? "bg-emerald-500" : "bg-amber-500"
-                    }`}>
-                      {user.emailVerified ? (
-                        <CheckCircle2 className="w-4 h-4" />
-                      ) : (
-                        <XCircle className="w-4 h-4" />
-                      )}
+                    <div
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center text-white ${
+                        user.emailVerified ? "bg-emerald-500" : "bg-amber-500"
+                      }`}
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-gray-900">Email Status</div>
+                      <div className="text-xs font-bold text-gray-900">
+                        Email Status
+                      </div>
                       <div className="text-[11px] text-gray-500">
                         {user.emailVerified ? "Verified email" : "Unverified email"}
                       </div>
                     </div>
                   </div>
 
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-extrabold ${
-                    user.emailVerified
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "bg-amber-100 text-amber-800"
-                  }`}>
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-xs font-extrabold ${
+                      user.emailVerified
+                        ? "bg-emerald-100 text-emerald-800"
+                        : "bg-amber-100 text-amber-800"
+                    }`}
+                  >
                     {user.emailVerified ? "Verified" : "Pending"}
                   </span>
                 </div>
-
-                {/* Terms Acceptance Item */}
-                {/* <div className="flex items-center justify-between p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-white ${
-                      user.acceptTerms ? "bg-emerald-500" : "bg-gray-400"
-                    }`}>
-                      <FileCheck className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-gray-900">Terms Accepted</div>
-                      <div className="text-[11px] text-gray-500">Privacy & Rules</div>
-                    </div>
-                  </div>
-
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-extrabold ${
-                    user.acceptTerms
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "bg-gray-200 text-gray-700"
-                  }`}>
-                    {user.acceptTerms ? "Accepted" : "False"}
-                  </span>
-                </div> */}
               </div>
             </div>
 
             {/* Quick Navigation Shortcuts */}
             <div className="bg-gradient-to-br from-emerald-900 to-teal-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-              
+
               <div className="flex items-center gap-2 mb-4">
                 <Leaf className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-extrabold text-white">FreshCart Quick Links</h3>
+                <h3 className="text-base font-extrabold text-white">
+                  FreshCart Quick Links
+                </h3>
               </div>
 
               <p className="text-emerald-200/80 text-xs mb-6 leading-relaxed">
-                Seamlessly shop, view your saved products, or return to the main store.
+                Seamlessly shop, view organic categories, or return to the main store.
               </p>
 
               <div className="space-y-3 z-10 relative">
@@ -520,3 +456,4 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({ user }) => {
     </main>
   );
 };
+

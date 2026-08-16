@@ -43,7 +43,7 @@ const ProfilePage = async () => {
         <AnnouncementBar />
 
         {/* Global Navigation Bar */}
-        <Navbar />
+        {/* <Navbar /> */}
 
         {/* Main Profile Client Section */}
         <ProfileClient user={user} />
