@@ -28,6 +28,7 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const GoogleSignIn = () => {
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {

@@ -18,7 +18,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({user, url, token}, request) => {
+    sendResetPassword: async ({ user, url, token }, request) => {
       console.log(`Reset email to ${user.email}: ${url}`);
     },
     onPasswordReset: async ({ user }, request) => {
@@ -33,6 +33,11 @@ export const auth = betterAuth({
       clientId: process.env.FACEBOOK_CLIENT_ID as string,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
     },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+
   },
 
 
