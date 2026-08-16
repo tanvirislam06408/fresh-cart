@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function LoginFormContent() {
   const { showToast } = useCart();
@@ -69,7 +70,7 @@ function LoginFormContent() {
       ...payload
     });
     if (error) {
-      console.log(error);
+      toast.error(error?.message || "something wrong please try again letter")
       return;
     }
 
@@ -78,7 +79,10 @@ function LoginFormContent() {
     if (data) {
       setTimeout(() => {
         setIsSubmitting(false);
-        showToast(`Welcome back! Login successful.`);
+        toast.success(`${data?.user.name} Welcome back! Login successful.`, {
+          duration: 4000,
+          position: 'top-right',
+        });
         router.replace('/')
         router.refresh();
         console.log("after login", data, error);
@@ -94,8 +98,8 @@ function LoginFormContent() {
       provider: "facebook",
 
     })
-    console.log("user data",data);
-    
+    console.log("user data", data);
+
     // Console log the Facebook login data
     if (data.error) {
       showToast(`${data?.error.message}`);

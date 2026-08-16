@@ -23,6 +23,7 @@ import { SearchModal } from "@/components/SearchModal";
 import { WishlistModal } from "@/components/WishlistModal";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { ToastNotification } from "@/components/ToastNotification";
+import  { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   return (
@@ -78,6 +79,10 @@ export default function Home() {
 
         {/* Interactive Drawers & Modals */}
         <CartDrawer />
+        <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
         <QuickViewModal />
         <SearchModal />
         <WishlistModal />
