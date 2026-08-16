@@ -4,7 +4,6 @@ import React from "react";
 import { CartProvider } from "@/context/CartContext";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Navbar } from "@/components/Navbar";
-import { HeroSection } from "@/components/HeroSection";
 import { CategorySection } from "@/components/CategorySection";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { PromoBanner } from "@/components/PromoBanner";

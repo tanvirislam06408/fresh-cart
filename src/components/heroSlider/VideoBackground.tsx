@@ -6,6 +6,7 @@ interface VideoBackgroundProps {
   videoSrc: string;
   isActive: boolean;
   isMuted: boolean;
+  onEnded: () => void;
 }
 
 export const VideoBackground: React.FC<VideoBackgroundProps> = ({

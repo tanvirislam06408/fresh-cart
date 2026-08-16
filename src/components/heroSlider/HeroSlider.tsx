@@ -2,16 +2,16 @@
 
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 
 import { HERO_SLIDES } from "./heroData";
 import { VideoBackground } from "./VideoBackground";
 import { SlideContent } from "./SlideContent";
-import { SliderControls } from "./SliderControls";
 
 export const HeroSlider: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -49,12 +49,12 @@ export const HeroSlider: React.FC = () => {
   return (
     <section className="relative w-full h-[620px] sm:h-[680px] lg:h-[760px] overflow-hidden bg-gray-950">
       <Swiper
-        modules={[Autoplay, EffectFade]}
+        modules={[Autoplay, EffectFade, Pagination]}
         effect="fade"
         speed={1000}
         loop={true}
         autoplay={{
-          delay: 8000,
+          delay: 500,
           disableOnInteraction: false,
         }}
         onSwiper={(swiper) => {
@@ -63,6 +63,7 @@ export const HeroSlider: React.FC = () => {
         onSlideChange={(swiper) => {
           setActiveIndex(swiper.realIndex);
         }}
+        // using a custom pagination below for better styling/control
         className="w-full h-full"
       >
         {HERO_SLIDES.map((slide, index) => {
@@ -74,6 +75,7 @@ export const HeroSlider: React.FC = () => {
                 videoSrc={slide.videoSrc}
                 isActive={isActive}
                 isMuted={isMuted}
+                onEnded={handleNext}
               />
 
               {/* Text Overlay & Content */}
@@ -82,6 +84,25 @@ export const HeroSlider: React.FC = () => {
           );
         })}
       </Swiper>
+
+      {/* Pagination dots */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-3">
+        {HERO_SLIDES.map((_, idx) => {
+          const active = activeIndex === idx;
+          return (
+            <button
+              key={idx}
+              onClick={() => handleSelectSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+              className={`rounded-full transition-all duration-200 focus:outline-none ${
+                active
+                  ? "w-4 h-4 bg-white shadow-lg"
+                  : "w-3 h-3 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+          );
+        })}
+      </div>
 
     </section>
   );
