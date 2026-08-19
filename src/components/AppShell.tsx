@@ -22,7 +22,13 @@ export function AppShell({ children }: AppShellProps) {
   const isDashboardRoute = pathname.startsWith("/dashboard");
 
   return (
-    <div className={isDashboardRoute ? "min-h-screen" : "min-h-screen flex flex-col font-sans"}>
+    <div
+      className={
+        isDashboardRoute
+          ? "min-h-screen"
+          : "min-h-screen flex flex-col font-sans"
+      }
+    >
       {!isDashboardRoute && <AnnouncementBar />}
       {!isDashboardRoute && <Navbar />}
       {children}

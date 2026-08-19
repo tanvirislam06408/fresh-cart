@@ -1,13 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import { Star, ShoppingBag, Heart, Eye, ArrowRight } from "lucide-react";
-import { POPULAR_PRODUCTS, Product } from "@/data/products";
+import React, { useState, useRef, useEffect } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { POPULAR_PRODUCTS } from "@/data/products";
+import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/context/CartContext";
 
 export const PopularProducts: React.FC = () => {
   const [activeTab, setActiveTab] = useState("all");
-  const { addToCart, toggleWishlist, isInWishlist, setQuickViewProduct, showToast } = useCart();
+  const swiperRef = useRef<SwiperType | null>(null);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const { showToast } = useCart();
 
   const tabs = [
     { id: "all", label: "All Products" },
@@ -16,36 +27,74 @@ export const PopularProducts: React.FC = () => {
     { id: "dairy", label: "Dairy" },
     { id: "meat", label: "Meat" },
     { id: "beverages", label: "Drinks & Juices" },
+    { id: "bakery", label: "Bakery" },
+    { id: "snacks", label: "Snacks" },
   ];
 
-  const filteredProducts = activeTab === "all"
-    ? POPULAR_PRODUCTS
-    : POPULAR_PRODUCTS.filter((p) => p.categoryId === activeTab);
+  const filteredProducts =
+    activeTab === "all"
+      ? POPULAR_PRODUCTS
+      : POPULAR_PRODUCTS.filter((p) => p.categoryId === activeTab);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(0);
+    }
+  };
+
+  // Auto scroll when user enters section view
+  useEffect(() => {
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (swiperRef.current) {
+            if (entry.isIntersecting) {
+              swiperRef.current.autoplay.start();
+            } else {
+              swiperRef.current.autoplay.stop();
+            }
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(sectionEl);
+    return () => observer.disconnect();
+  }, [activeTab]);
 
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section ref={sectionRef} className="py-16 sm:py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200/60 inline-block mb-3">
-            MOST WANTED ITEMS
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
-            Customers' Favorites
-          </h2>
-          <p className="text-gray-600 text-base sm:text-lg mt-2 font-normal">
-            Top-rated products ordered continuously by our 10,000+ satisfied households.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200/60 inline-block mb-3">
+              MOST WANTED ITEMS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
+              Customers' Favorites
+            </h2>
+            <p className="text-gray-600 text-base sm:text-lg mt-2 font-normal">
+              Top-rated products ordered continuously by our 10,000+ satisfied households. Auto-scrolling 4-column slider.
+            </p>
+          </div>
+
+          
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap mb-10">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
                 className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
                   isActive
                     ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
@@ -58,117 +107,67 @@ export const PopularProducts: React.FC = () => {
           })}
         </div>
 
-        {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => {
-            const inWishlist = isInWishlist(product.id);
-
-            return (
-              <div
-                key={product.id}
-                className="group relative bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-              >
-                {/* Image */}
-                <div
-                  className="relative w-full h-52 rounded-2xl overflow-hidden bg-gray-50 mb-4 cursor-pointer"
-                  onClick={() => setQuickViewProduct(product)}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
-                  />
-
-                  {/* Top Badges */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-                    {product.discountBadge && (
-                      <span className="bg-amber-500 text-white font-extrabold text-[11px] px-2.5 py-1 rounded-full shadow-sm">
-                        {product.discountBadge}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Wishlist button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleWishlist(product.id);
-                    }}
-                    className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all z-10 ${
-                      inWishlist
-                        ? "bg-rose-50 text-rose-500 shadow-md"
-                        : "bg-white/80 text-gray-400 hover:text-rose-500 hover:bg-white"
-                    }`}
-                  >
-                    <Heart className={`w-4 h-4 ${inWishlist ? "fill-rose-500" : ""}`} />
-                  </button>
-
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                    <span className="bg-white/90 text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow flex items-center gap-1.5">
-                      <Eye className="w-3.5 h-3.5" /> Quick View
-                    </span>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider block mb-1">
-                      {product.category}
-                    </span>
-                    <h3
-                      onClick={() => setQuickViewProduct(product)}
-                      className="font-bold text-gray-900 text-base leading-snug group-hover:text-emerald-700 transition-colors cursor-pointer line-clamp-2"
-                    >
-                      {product.name}
-                    </h3>
-                    <span className="text-xs text-gray-500 block mt-1 font-medium">
-                      {product.unit}
-                    </span>
-
-                    <div className="flex items-center gap-1.5 mt-2.5">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      <span className="text-xs font-bold text-gray-800">{product.rating}</span>
-                      <span className="text-[11px] text-gray-400">({product.reviewsCount})</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-                    <div>
-                      <span className="text-lg font-extrabold text-gray-900">
-                        ${product.price.toFixed(2)}
-                      </span>
-                      {product.oldPrice && (
-                        <span className="text-xs text-gray-400 line-through ml-1.5 font-medium">
-                          ${product.oldPrice.toFixed(2)}
-                        </span>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => addToCart(product)}
-                      className="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95"
-                    >
-                      <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Swiper Product Slider (4 Columns on Desktop) */}
+        <div className="relative pb-6">
+          {filteredProducts.length > 0 ? (
+            <Swiper
+              key={activeTab}
+              modules={[Navigation, Pagination, Autoplay]}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              spaceBetween={24}
+              slidesPerView={1}
+              grabCursor={true}
+              loop={filteredProducts.length >= 4}
+              pagination={{
+                clickable: true,
+                dynamicBullets: true,
+              }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              breakpoints={{
+                540: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 24,
+                },
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 24,
+                },
+              }}
+              className="w-full !pb-12 flex items-stretch [&_.swiper-pagination-bullet-active]:!bg-emerald-600 [&_.swiper-pagination-bullet-active]:!w-6 [&_.swiper-pagination-bullet-active]:!rounded-full [&_.swiper-pagination-bullet]:!transition-all"
+            >
+              {filteredProducts.map((product) => (
+                <SwiperSlide key={product.id} className="!h-auto flex flex-col">
+                  <ProductCard product={product} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+              <p className="text-gray-500 font-medium">No products found in this category.</p>
+            </div>
+          )}
         </div>
 
         {/* View All Products button */}
-        <div className="mt-12 text-center">
+        {/* <div className="mt-10 text-center">
           <button
             onClick={() => showToast("Loading 150+ more organic grocery products...")}
-            className="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-8 py-3.5 rounded-full border border-emerald-200/80 transition-all text-sm shadow-sm"
+            className="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-8 py-3.5 rounded-full border border-emerald-200/80 transition-all text-sm shadow-sm hover:shadow-md"
           >
             View All Products
             <ArrowRight className="w-4 h-4" />
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

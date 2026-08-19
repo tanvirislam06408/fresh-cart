@@ -95,7 +95,7 @@ export const Navbar: React.FC = () => {
               Home
             </Link>
             <Link
-              href="/categories"
+              href="/#categories"
               className="hover:text-emerald-600 transition-colors"
             >
               Categories
@@ -144,11 +144,11 @@ export const Navbar: React.FC = () => {
               className="p-2 sm:p-2.5 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors relative hidden sm:flex"
             >
               <Heart className="w-5 h-5 stroke-[2]" />
-              {wishlist.length > 0 && (
+              {/* {wishlist.length > 0 && (
                 <span className="absolute top-1 right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
-                  {wishlist.length}
+                  
                 </span>
-              )}
+              )} */}
             </button>
 
             {/* Shopping Cart Icon with item count badge */}
@@ -166,9 +166,9 @@ export const Navbar: React.FC = () => {
                   </span>
                 )}
               </div>
-              <span className="hidden sm:inline-block font-bold text-emerald-900">
+              {/* <span className="hidden sm:inline-block font-bold text-emerald-900">
                 ${totalItems > 0 ? "12.97" : "0.00"}
-              </span>
+              </span> */}
             </button>
            }
 

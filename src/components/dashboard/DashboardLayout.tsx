@@ -15,7 +15,9 @@ interface DashboardLayoutProps {
   serverUser?: UserSessionData | null;
 }
 
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ serverUser }) => {
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  serverUser,
+}) => {
   const [activeTab, setActiveTab] = useState<NavTab>("dashboard");
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
@@ -118,7 +120,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ serverUser }) 
 
         {/* Dashboard Footer */}
         <footer className="border-t border-gray-100 bg-white py-4 px-6 text-center text-xs text-gray-500 font-medium">
-          <p>© 2026 FreshCart Organic Supermarket. Production Quality User Dashboard.</p>
+          <p>
+            © 2026 FreshCart Organic Supermarket. Production Quality User
+            Dashboard.
+          </p>
         </footer>
       </div>
     </div>
