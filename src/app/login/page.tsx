@@ -3,16 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CartProvider, useCart } from "@/context/CartContext";
-import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { ToastNotification } from "@/components/ToastNotification";
-import { CartDrawer } from "@/components/CartDrawer";
-import { QuickViewModal } from "@/components/QuickViewModal";
-import { SearchModal } from "@/components/SearchModal";
-import { WishlistModal } from "@/components/WishlistModal";
-import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { useCart } from "@/context/CartContext";
 import {
   Mail,
   Lock,
@@ -26,7 +17,7 @@ import {
   Truck,
   Star,
   Terminal,
-  X
+  X,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -60,45 +51,38 @@ function LoginFormContent() {
     setIsSubmitting(true);
 
     const payload = {
-
       email,
       password: "•".repeat(password.length) + " (" + password + ")",
       rememberMe,
     };
 
-
     const { data, error } = await authClient.signIn.email({
-      ...payload
+      ...payload,
     });
     if (error) {
-      toast.error(error?.message || "something wrong please try again letter")
+      toast.error(error?.message || "something wrong please try again letter");
       return;
     }
-
-
 
     if (data) {
       setTimeout(() => {
         setIsSubmitting(false);
         toast.success(`${data?.user.name} Welcome back! Login successful.`, {
           duration: 4000,
-          position: 'top-right',
+          position: "top-right",
         });
-        router.replace('/')
+        router.replace("/");
         router.refresh();
         console.log("after login", data, error);
       }, 400);
-    };
-  }
+    }
+  };
 
   // Handle Facebook Login click
   const handleFacebookLogin = async () => {
-
-
     const data = await authClient.signIn.social({
       provider: "facebook",
-
-    })
+    });
     console.log("user data", data);
 
     // Console log the Facebook login data
@@ -118,18 +102,24 @@ function LoginFormContent() {
     const payload = {
       action: "Password Reset Request",
       email: forgotEmail,
-      timestamp: new Date().toLocaleTimeString()
+      timestamp: new Date().toLocaleTimeString(),
     };
 
-    console.log("%c[FreshCart Auth] 📩 FORGOT PASSWORD REQUESTED:", "color: #f59e0b; font-weight: bold; font-size: 14px;", payload);
+    console.log(
+      "%c[FreshCart Auth] 📩 FORGOT PASSWORD REQUESTED:",
+      "color: #f59e0b; font-weight: bold; font-size: 14px;",
+      payload,
+    );
 
     setLogOutput({
       type: "forgot",
       data: payload,
-      timestamp: new Date().toLocaleTimeString()
+      timestamp: new Date().toLocaleTimeString(),
     });
 
-    showToast(`Password reset link sent (Logged to console for ${forgotEmail})`);
+    showToast(
+      `Password reset link sent (Logged to console for ${forgotEmail})`,
+    );
     setShowForgotModal(false);
     setForgotEmail("");
   };
@@ -155,7 +145,10 @@ function LoginFormContent() {
 
           {/* Top Brand Header */}
           <div className="relative z-10">
-            <Link href="/" className="inline-flex items-center gap-2.5 group mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2.5 group mb-8"
+            >
               <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
                 <Leaf className="w-6 h-6 fill-white/20 stroke-[2.2]" />
               </div>
@@ -173,7 +166,8 @@ function LoginFormContent() {
               Welcome back to fresh & organic living.
             </h1>
             <p className="text-emerald-100/90 text-sm sm:text-base leading-relaxed mb-8">
-              Sign in to manage your orders, access exclusive member discounts, and track your 30-minute express deliveries in real-time.
+              Sign in to manage your orders, access exclusive member discounts,
+              and track your 30-minute express deliveries in real-time.
             </p>
 
             {/* Feature Checklist */}
@@ -211,11 +205,15 @@ function LoginFormContent() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4">
                 <div className="flex items-center gap-1 text-amber-400 mb-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <Star
+                      key={i}
+                      className="w-3.5 h-3.5 fill-amber-400 text-amber-400"
+                    />
                   ))}
                 </div>
                 <p className="text-white text-xs font-medium italic">
-                  &quot;FreshCart makes getting organic groceries so quick and effortless!&quot;
+                  &quot;FreshCart makes getting organic groceries so quick and
+                  effortless!&quot;
                 </p>
                 <p className="text-emerald-300 text-[11px] font-semibold mt-0.5">
                   — Sophia R., Verified Member
@@ -250,8 +248,6 @@ function LoginFormContent() {
                 </Link>
               </div>
             </div>
-
-
 
             {/* Standard Email & Password Form */}
             <form onSubmit={handleEmailLogin} className="space-y-5">
@@ -305,7 +301,9 @@ function LoginFormContent() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -363,8 +361,6 @@ function LoginFormContent() {
             <GoogleSignIn />
           </div>
 
-
-
           {/* Bottom Switch Link */}
           <div className="mt-8 text-center border-t border-gray-100 pt-6">
             <p className="text-xs sm:text-sm text-gray-600 font-medium">
@@ -385,7 +381,9 @@ function LoginFormContent() {
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-gray-900">Reset Your Password</h3>
+              <h3 className="text-xl font-bold text-gray-900">
+                Reset Your Password
+              </h3>
               <button
                 onClick={() => setShowForgotModal(false)}
                 className="p-1.5 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
@@ -394,7 +392,8 @@ function LoginFormContent() {
               </button>
             </div>
             <p className="text-gray-600 text-sm mb-6">
-              Enter your email address below and we will log a password reset payload to your browser console.
+              Enter your email address below and we will log a password reset
+              payload to your browser console.
             </p>
             <form onSubmit={handleForgotPassword} className="space-y-4">
               <div>
@@ -434,20 +433,5 @@ function LoginFormContent() {
 }
 
 export default function LoginPage() {
-  return (
-    <CartProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAF9F6] selection:bg-emerald-200 selection:text-emerald-900 font-sans">
-        <AnnouncementBar />
-        <Navbar />
-        <LoginFormContent />
-        <Footer />
-        <CartDrawer />
-        <QuickViewModal />
-        <SearchModal />
-        <WishlistModal />
-        <MobileBottomNav />
-        <ToastNotification />
-      </div>
-    </CartProvider>
-  );
+  return <LoginFormContent />;
 }

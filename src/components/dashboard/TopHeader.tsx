@@ -39,9 +39,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
   const clientUser = session?.user;
 
-  const name = serverUser?.name || clientUser?.name || USER_PROFILE_DATA.name;
-  const email = serverUser?.email || clientUser?.email || USER_PROFILE_DATA.email;
-  const image = serverUser?.image ?? clientUser?.image ?? USER_PROFILE_DATA.avatar;
+  const name = serverUser?.name || clientUser?.name ;
+  const email = serverUser?.email || clientUser?.email;
+  const image = serverUser?.image ?? clientUser?.image
   const role = serverUser?.role || (clientUser as { role?: string })?.role || "user";
 
   const notifications = [

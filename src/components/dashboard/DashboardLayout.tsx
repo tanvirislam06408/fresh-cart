@@ -54,7 +54,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ serverUser }) 
         />
 
         {/* 3. Main Dashboard Content Body */}
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 flex-grow max-w-7xl w-full mx-auto">
+        <main className="p-4 sm:p-6 lg:p-8 space-y-8 grow max-w-7xl w-full mx-auto">
           {/* STATS OVERVIEW CARDS */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {STATS_DATA.map((stat) => (
@@ -76,7 +76,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ serverUser }) 
               </section>
 
               {/* THREE COLUMN GRID: CART PREVIEW, PROFILE SUMMARY, RECENT ACTIVITY */}
-              <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch">
+              {/* <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch">
                 <div className="lg:col-span-4">
                   <CartPreview />
                 </div>
@@ -88,7 +88,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ serverUser }) 
                 <div className="lg:col-span-4">
                   <RecentActivity />
                 </div>
-              </section>
+              </section> */}
             </>
           )}
 

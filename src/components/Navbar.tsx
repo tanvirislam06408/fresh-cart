@@ -95,19 +95,19 @@ export const Navbar: React.FC = () => {
               Home
             </Link>
             <Link
-              href="#categories"
+              href="/categories"
               className="hover:text-emerald-600 transition-colors"
             >
               Categories
             </Link>
             <Link
-              href="#products"
+              href="/#products"
               className="hover:text-emerald-600 transition-colors"
             >
               Shop
             </Link>
             <Link
-              href="#deals"
+              href="/#deals"
               className="flex items-center gap-1.5 text-amber-600 hover:text-amber-700 font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-xs border border-amber-200/60 transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
@@ -119,7 +119,7 @@ export const Navbar: React.FC = () => {
               </Link>
             }
             <Link
-              href="#why-us"
+              href="/#why-us"
               className="hover:text-emerald-600 transition-colors"
             >
               About
@@ -152,7 +152,8 @@ export const Navbar: React.FC = () => {
             </button>
 
             {/* Shopping Cart Icon with item count badge */}
-            <button
+           {
+            user &&  <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Shopping Cart"
               className="relative flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100/80 text-emerald-800 px-3.5 py-2 rounded-full font-semibold text-sm transition-all border border-emerald-200/60 shadow-sm hover:shadow"
@@ -169,6 +170,7 @@ export const Navbar: React.FC = () => {
                 ${totalItems > 0 ? "12.97" : "0.00"}
               </span>
             </button>
+           }
 
 
 
@@ -201,34 +203,34 @@ export const Navbar: React.FC = () => {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100 mt-3 space-y-3 animate-in slide-in-from-top duration-200">
-            <a
-              href="#"
+            <Link
+              href="/"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-semibold text-emerald-600 bg-emerald-50 rounded-xl"
             >
               Home
-            </a>
-            <a
-              href="#categories"
+            </Link>
+            <Link
+              href="/#categories"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl"
             >
               Categories
-            </a>
-            <a
-              href="#products"
+            </Link>
+            <Link
+              href="/#products"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl"
             >
               Shop All Products
-            </a>
+            </Link>
             {
               user && <Link className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl" href={`/dashboard/${(user as { role?: string })?.role || "user"}`}>
                 Dashboard
               </Link>
             }
-            <a
-              href="#deals"
+            <Link
+              href="/#deals"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center justify-between px-3 py-2 text-base font-medium text-amber-700 bg-amber-50 rounded-xl"
             >
@@ -236,14 +238,14 @@ export const Navbar: React.FC = () => {
                 <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" /> Today's Deals
               </span>
               <ChevronRight className="w-4 h-4" />
-            </a>
-            <a
-              href="#why-us"
+            </Link>
+            <Link
+              href="/#why-us"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-xl"
             >
               Why FreshCart
-            </a>
+            </Link>
 
             <div className="pt-2 border-t border-gray-100 flex items-center gap-3 px-3">
               {
